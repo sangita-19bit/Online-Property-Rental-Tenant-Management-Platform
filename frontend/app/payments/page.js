@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import TopNav from "../components/TopNav";
 import { fetchPayments } from "../lib/api";
 
@@ -7,12 +10,33 @@ function statusClass(status) {
   return "badge badge-info";
 }
 
-export default async function PaymentsPage() {
-  let payments = [];
-  try {
-    payments = await fetchPayments();
-  } catch (e) {
-    console.error("Could not load payments:", e.message);
+export default function PaymentsPage() {
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await fetchPayments();
+        setPayments(data);
+      } catch (e) {
+        console.error("Could not load payments:", e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <TopNav />
+        <main className="page wrapper">
+          <p>Loading payments...</p>
+        </main>
+      </>
+    );
   }
 
   return (

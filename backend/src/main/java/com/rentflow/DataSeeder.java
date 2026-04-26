@@ -23,12 +23,26 @@ public class DataSeeder implements CommandLineRunner {
     private final PropertyRepository propertyRepository;
     private final PaymentRepository paymentRepository;
     private final MaintenanceRepository maintenanceRepository;
+    private final com.rentflow.repository.UserRepository userRepository;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
+        seedUsers();
         seedProperties();
         seedPayments();
         seedMaintenance();
+    }
+
+    private void seedUsers() {
+        if (!userRepository.existsByUsername("EndUser")) {
+            com.rentflow.model.User user = new com.rentflow.model.User();
+            user.setUsername("EndUser");
+            user.setPassword(passwordEncoder.encode("sangi19"));
+            user.setRole("ROLE_ADMIN");
+            userRepository.save(user);
+            System.out.println("[DataSeeder] Initial user seeded successfully.");
+        }
     }
 
     private void seedProperties() {

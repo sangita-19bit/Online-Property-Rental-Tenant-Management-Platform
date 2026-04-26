@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import TopNav from "../components/TopNav";
 import { fetchMaintenanceRequests } from "../lib/api";
 
@@ -7,12 +10,33 @@ function priorityClass(priority) {
   return "badge badge-success";
 }
 
-export default async function MaintenancePage() {
-  let maintenanceRequests = [];
-  try {
-    maintenanceRequests = await fetchMaintenanceRequests();
-  } catch (e) {
-    console.error("Could not load maintenance requests:", e.message);
+export default function MaintenancePage() {
+  const [maintenanceRequests, setMaintenanceRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await fetchMaintenanceRequests();
+        setMaintenanceRequests(data);
+      } catch (e) {
+        console.error("Could not load maintenance requests:", e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <TopNav />
+        <main className="page wrapper">
+          <p>Loading maintenance requests...</p>
+        </main>
+      </>
+    );
   }
 
   return (

@@ -1,0 +1,96 @@
+{
+  "payments": [
+    {
+      "id": "PAY-8804",
+      "tenant": "Arjun Sharma",
+      "property": "Skyline Residency",
+      "amount": 32000,
+      "dueDate": "2026-04-05",
+      "status": "Paid",
+      "_class": "com.rentflow.model.Payment"
+    },
+    {
+      "id": "PAY-8805",
+      "tenant": "Neha Gupta",
+      "property": "Riverfront Heights",
+      "amount": 28000,
+      "dueDate": "2026-04-01",
+      "status": "Pending",
+      "_class": "com.rentflow.model.Payment"
+    },
+    {
+      "id": "PAY-8806",
+      "tenant": "Vikram Singh",
+      "property": "Palm Grove Apartments",
+      "amount": 24000,
+      "dueDate": "2026-03-28",
+      "status": "Overdue",
+      "_class": "com.rentflow.model.Payment"
+    },
+    {
+      "id": "PAY-8807",
+      "tenant": "Sneha Reddy",
+      "property": "Lakeview Condos",
+      "amount": 35000,
+      "dueDate": "2026-04-10",
+      "status": "Paid",
+      "_class": "com.rentflow.model.Payment"
+    },
+    {
+      "id": "PAY-8808",
+      "tenant": "Rohan Desai",
+      "property": "Sunset Villas",
+      "amount": 45000,
+      "dueDate": "2026-04-15",
+      "status": "Pending",
+      "_class": "com.rentflow.model.Payment"
+    }
+  ],
+  "maintenanceRequests": [
+    {
+      "id": "MR-404",
+      "tenant": "Arjun Sharma",
+      "property": "Skyline Residency",
+      "issue": "Water heater not working",
+      "priority": "High",
+      "status": "In Progress",
+      "_class": "com.rentflow.model.MaintenanceRequest"
+    },
+    {
+      "id": "MR-405",
+      "tenant": "Vikram Singh",
+      "property": "Palm Grove Apartments",
+      "issue": "Broken window lock",
+      "priority": "Low",
+      "status": "Pending",
+      "_class": "com.rentflow.model.MaintenanceRequest"
+    },
+    {
+      "id": "MR-406",
+      "tenant": "Neha Gupta",
+      "property": "Riverfront Heights",
+      "issue": "Clogged bathroom drain",
+      "priority": "Medium",
+      "status": "Completed",
+      "_class": "com.rentflow.model.MaintenanceRequest"
+    },
+    {
+      "id": "MR-407",
+      "tenant": "Rohan Desai",
+      "property": "Sunset Villas",
+      "issue": "Pest control needed",
+      "priority": "Low",
+      "status": "Pending",
+      "_class": "com.rentflow.model.MaintenanceRequest"
+    },
+    {
+      "id": "MR-408",
+      "tenant": "Sneha Reddy",
+      "property": "Lakeview Condos",
+      "issue": "Short circuit in living room",
+      "priority": "High",
+      "status": "In Progress",
+      "_class": "com.rentflow.model.MaintenanceRequest"
+    }
+  ]
+}

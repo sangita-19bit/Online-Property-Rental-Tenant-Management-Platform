@@ -17,6 +17,7 @@ export default function LoginPage() {
     const storedUser = localStorage.getItem("username");
     if (token && storedUser) {
       setLoggedInUser(storedUser);
+      document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax`;
     }
   }, []);
 
@@ -39,6 +40,7 @@ export default function LoginPage() {
       const data = await res.json();
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
+      document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
       
       // Redirect to dashboard
       router.push("/dashboard");
@@ -50,6 +52,7 @@ export default function LoginPage() {
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    document.cookie = "token=; path=/; max-age=0; SameSite=Lax";
     setLoggedInUser(null);
     setUsername("");
     setPassword("");

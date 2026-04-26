@@ -24,7 +24,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch("http://localhost:8081/api/auth/login", {
+      const res = await fetch("https://online-property-rental-tenant-management.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

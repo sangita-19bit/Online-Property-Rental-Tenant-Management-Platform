@@ -17,7 +17,7 @@ export default function SignUpPage() {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://localhost:8081/api/auth/register", {
+      const res = await fetch("https://online-property-rental-tenant-management.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

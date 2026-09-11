@@ -13,18 +13,11 @@ export function middleware(request) {
     pathname.startsWith(route)
   );
 
-  // 1. Redirect unauthenticated users to the login page
+  // Redirect unauthenticated users to the login page
   if (isProtectedRoute && !token) {
     const loginUrl = new URL("/auth/login", request.url);
-    // You could also add a redirect parameter to redirect back after successful login
-    // loginUrl.searchParams.set("callbackUrl", pathname);
+    loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
-  }
-
-  // 2. Redirect authenticated users away from the auth pages (like login/register) to dashboard
-  const isAuthRoute = pathname.startsWith("/auth");
-  if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // Allow the request to proceed
@@ -36,7 +29,6 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/payments/:path*",
-    "/maintenance/:path*",
-    "/auth/:path*"
+    "/maintenance/:path*"
   ],
 };

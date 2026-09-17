@@ -23,4 +23,13 @@ public class Property {
     private String status;
     private String availableFrom;
     private List<String> amenities;
+
+    // Additional fields for the marketplace
+    private String type; // "Rent" or "Sale"
+    private int bedrooms;
+    private int bathrooms;
+    private int area; // square feet
+    private String description;
+    private String sellerInfo;
+    private String image; // URL to property image
 }

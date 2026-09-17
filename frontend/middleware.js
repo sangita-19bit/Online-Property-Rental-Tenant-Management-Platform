@@ -2,21 +2,26 @@ import { NextResponse } from "next/server";
 
 export function middleware(request) {
   // Check for an authentication token in cookies.
-  // Note: Adjust the cookie name if your implementation uses a different one (e.g., 'session', 'jwt').
   const token = request.cookies.get("token")?.value;
-
   const { pathname } = request.nextUrl;
 
-  // Define paths that require authentication
-  const protectedRoutes = ["/dashboard", "/payments", "/maintenance"];
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
+  // Ignore static assets, next internals, and auth routes
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/auth") ||
+    pathname === "/"
+  ) {
+    return NextResponse.next();
+  }
 
+  // If we reach here, it's an "other page except the home page"
   // Redirect unauthenticated users to the login page
-  if (isProtectedRoute && !token) {
+  if (!token) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
+    loginUrl.searchParams.set("msg", "Please log in to access this page.");
     return NextResponse.redirect(loginUrl);
   }
 
@@ -27,8 +32,13 @@ export function middleware(request) {
 export const config = {
   // Define which paths this middleware will run on
   matcher: [
-    "/dashboard/:path*",
-    "/payments/:path*",
-    "/maintenance/:path*"
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

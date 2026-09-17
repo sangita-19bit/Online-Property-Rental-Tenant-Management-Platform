@@ -1,6 +1,4 @@
-export const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://online-property-rental-tenant-management.onrender.com/api";
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api";
 
 export function getStoredToken() {
   if (typeof window === "undefined") return null;
@@ -63,7 +61,7 @@ export async function fetchWithTimeout(url, options = {}, timeoutMs = 25000) {
     clearTimeout(timeoutId);
     if (error.name === "AbortError") {
       throw new Error(
-        "Request timed out. The backend server might be starting up (Render free tier). Please try again in a few moments."
+        "Request timed out. Please check if the backend is running."
       );
     }
     throw error;
@@ -139,5 +137,34 @@ export async function fetchStats() {
     headers: getAuthHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch stats");
+  return res.json();
+}
+
+export async function fetchPropertyById(id) {
+  const res = await fetchWithTimeout(`${API_BASE}/properties/${id}`, {
+    cache: "no-store",
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to fetch property details");
+  return res.json();
+}
+
+export async function createPayment(paymentData) {
+  const res = await fetchWithTimeout(`${API_BASE}/payments`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(paymentData),
+  });
+  if (!res.ok) throw new Error("Failed to create payment");
+  return res.json();
+}
+
+export async function createMaintenanceRequest(requestData) {
+  const res = await fetchWithTimeout(`${API_BASE}/maintenance`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(requestData),
+  });
+  if (!res.ok) throw new Error("Failed to create maintenance request");
   return res.json();
 }

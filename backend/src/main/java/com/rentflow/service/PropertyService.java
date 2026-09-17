@@ -24,4 +24,8 @@ public class PropertyService {
     public long countProperties() {
         return propertyRepository.count();
     }
+
+    public Property getPropertyById(String id) {
+        return propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found"));
+    }
 }

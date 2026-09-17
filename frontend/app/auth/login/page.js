@@ -16,6 +16,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const authMessage = searchParams.get("msg") || "";
 
   useEffect(() => {
     const token = getStoredToken();
@@ -79,6 +80,11 @@ function LoginForm() {
         </div>
       ) : (
         <form onSubmit={handleLogin}>
+          {authMessage && !error && (
+            <div className="bg-amber-50 text-amber-800 border border-amber-200 rounded-lg p-3 mb-4 text-sm font-medium">
+              {authMessage}
+            </div>
+          )}
           {error && (
             <div
               style={{

@@ -9,7 +9,7 @@ const baseLinks = [
   { label: "Home", href: "/" },
   { label: "Dashboard", href: "/dashboard" },
   { label: "Properties", href: "/properties" },
-  { label: "Payments", href: "/payments" },
+  { label: "Payments", href: "/payment" },
   { label: "Maintenance", href: "/maintenance" },
 ];
 

@@ -1,4 +1,7 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api";
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL;
+export const API_BASE = rawApiUrl 
+  ? (rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`) 
+  : "http://localhost:8081/api";
 
 export function getStoredToken() {
   if (typeof window === "undefined") return null;

@@ -1,16 +1,62 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import TopNav from "../../components/TopNav";
 import { fetchPropertyById } from "../../lib/api";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
-export default async function PropertyDetails({ params }) {
-  const { id } = await params;
-  let property = null;
-  let error = null;
+export default function PropertyDetails() {
+  const params = useParams();
+  const id = params.id;
+  
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [slowNotice, setSlowNotice] = useState(false);
 
-  try {
-    property = await fetchPropertyById(id);
-  } catch (e) {
-    error = e.message;
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      setError(null);
+      setSlowNotice(false);
+
+      const slowTimer = setTimeout(() => setSlowNotice(true), 3000);
+
+      try {
+        const data = await fetchPropertyById(id);
+        setProperty(data);
+        clearTimeout(slowTimer);
+      } catch (err) {
+        clearTimeout(slowTimer);
+        setError(err.message);
+      } finally {
+        clearTimeout(slowTimer);
+        setLoading(false);
+        setSlowNotice(false);
+      }
+    }
+    
+    if (id) {
+      loadData();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#f3f8f6]">
+        <TopNav />
+        <main className="wrapper page py-12 flex flex-col items-center justify-center">
+          <div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mb-4"></div>
+          <p className="text-teal-700 font-medium text-lg">Loading property details...</p>
+          {slowNotice && (
+            <p className="text-amber-600 mt-4 max-w-md text-center text-sm font-medium bg-amber-50 p-3 rounded-lg border border-amber-100">
+              ⏳ The backend server might be waking up from sleep mode. This could take up to 50 seconds...
+            </p>
+          )}
+        </main>
+      </div>
+    );
   }
 
   if (error || !property) {

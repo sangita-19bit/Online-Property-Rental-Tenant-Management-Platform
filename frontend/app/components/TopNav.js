@@ -31,8 +31,7 @@ export default function TopNav() {
   const handleSignOut = () => {
     clearAuthSession();
     setUser(null);
-    router.push("/auth/login");
-    router.refresh();
+    window.location.href = "/auth/login";
   };
 
   return (

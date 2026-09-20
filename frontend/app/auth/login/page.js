@@ -40,8 +40,7 @@ function LoginForm() {
     try {
       await loginUser(username, password);
       clearTimeout(slowTimer);
-      router.push(callbackUrl);
-      router.refresh();
+      window.location.href = callbackUrl;
     } catch (err) {
       clearTimeout(slowTimer);
       setError(err.message || "Login failed. Please check your credentials.");
